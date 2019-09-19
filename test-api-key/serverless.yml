@@ -1,0 +1,23 @@
+service: test-api-key
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  apiKeys:
+    - medium-tutorial-apikey"
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+
+  message:
+    handler: private.message
+    events:
+      - http:
+          path: message
+          method: get
+          private: true
