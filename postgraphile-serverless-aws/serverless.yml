@@ -1,0 +1,29 @@
+service: postgraphile-serverless-aws
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  memorySize: 3008
+  versionFunctions: true
+  apiKeys:
+    - postgraphile-dev-apikey
+
+plugins:
+  - serverless-express
+  - serverless-dotenv-plugin
+  - serverless-hooks-plugin
+
+functions:
+  graphql_handler:
+    handler: handler.handler
+    events:
+      - http:
+          path: /
+          method: POST
+          cors: true
+          private: true
+
+custom:
+  hooks:
+    before:package:createDeploymentArtifacts:
+      - sh hooks/introspection-cache.sh
