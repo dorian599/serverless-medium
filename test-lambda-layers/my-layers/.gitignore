@@ -19,5 +19,3 @@ var/
 
 # Serverless directories
 .serverless
-
-layers/tools/*
