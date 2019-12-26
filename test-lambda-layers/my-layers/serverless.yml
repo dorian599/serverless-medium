@@ -1,0 +1,12 @@
+service: my-layers
+
+provider:
+  name: aws
+  runtime: python3.7
+
+layers:
+  python-app-dependencies:
+    path: layers/tools
+    compatibleRuntimes:
+      - python3.7
+    description: "Contains the dependencies jsonpath_rw for python functions"
