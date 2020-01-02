@@ -1,0 +1,12 @@
+service: common-layer
+
+provider:
+  name: aws
+  runtime: python3.7
+
+layers:
+  python-common-dependencies:
+    path: layers/common
+    compatibleRuntimes:
+      - python3.7
+    description: "Common dependencies for python lamnda functions"

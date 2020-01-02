@@ -1,0 +1,25 @@
+service: the-app
+
+provider:
+  name: aws
+  runtime: python3.7
+
+  environment:
+    APP_ENV: ${opt:stage, self:provider.stage}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ssm:GetParameters
+        - ssm:GetParameter
+      Resource: "arn:aws:ssm:*:*:parameter/${opt:stage, self:provider.stage}/*"
+    - Effect: Allow
+      Action:
+        - ssm:DescribeParameters
+      Resource: "*"
+
+functions:
+  hello:
+    handler: src/handler.hello
+    layers:
+      - "${cf:common-layer-dev.PythonDashcommonDashdependenciesLambdaLayerQualifiedArn}"
