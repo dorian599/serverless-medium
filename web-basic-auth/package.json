@@ -1,0 +1,10 @@
+{
+  "name": "web-basic-auth",
+  "version": "0.0.1",
+  "description": "Secure web/SPA hosted in S3",
+  "author": "John Doe",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-lambda-edge-pre-existing-cloudfront": "^1.1.4"
+  }
+}

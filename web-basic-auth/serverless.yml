@@ -1,0 +1,38 @@
+service: web-basic-auth
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-lambda-edge-pre-existing-cloudfront
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 128
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
+functions:
+  web-basic-auth:
+    name: "${self:service.name}-${self:provider.stage}"
+    handler: src/web-basic-auth.handler
+    timeout: 5
+    events:
+      - preExistingCloudFront:
+          distributionId: ${env:CF_DIST_ID} # CloudFront distribution ID you want to associate
+          eventType: viewer-request
+          pathPattern: '*' # Specifying the CloudFront behavior
+          includeBody: false
+
+resources:
+  Resources:
+    IamRoleLambdaExecution:
+      Type: "AWS::IAM::Role"
+      Properties:
+        AssumeRolePolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+                  - edgelambda.amazonaws.com
